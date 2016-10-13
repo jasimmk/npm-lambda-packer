@@ -17,7 +17,7 @@ variable "environment" {
 
 resource "null_resource" "runner" {
   triggers {
-    filepath = "${path.cwd}/.terraform/npm-lambda-packer/${md5("${var.package}${var.version}${jsonencode(sort(var.environment))}")}.zip"
+    filepath = ".terraform/npm-lambda-packer/${md5("${var.package}${var.version}${jsonencode(sort(var.environment))}")}.zip"
   }
 
   provisioner "local-exec" {
