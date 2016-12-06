@@ -11,7 +11,7 @@ variable "version" {
 
 variable "environment" {
   type        = "list"
-  value       = []
+  default     = []
   description = "Environment variables to inject into the Lambda function."
 }
 
