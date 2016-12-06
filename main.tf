@@ -9,21 +9,15 @@ variable "version" {
   description = "The package version."
 }
 
-variable "environment" {
-  type        = "list"
-  default     = []
-  description = "Environment variables to inject into the Lambda function."
-}
-
 resource "null_resource" "runner" {
   triggers {
-    filepath = ".terraform/npm-lambda-packer/${md5("${var.package}${var.version}${jsonencode(sort(var.environment))}")}.zip"
+    filepath = ".terraform/npm-lambda-packer/${md5("${var.package}${var.version}")}.zip"
   }
 
   provisioner "local-exec" {
     command = <<COMMAND
 mkdir -p "$(dirname "${null_resource.runner.triggers.filepath}")"
-${path.module}/bin/package ${join(" ", formatlist("-e \"%s\"", var.environment))} -o "${null_resource.runner.triggers.filepath}" "${var.package}@${var.version}"
+${path.module}/bin/package -o "${null_resource.runner.triggers.filepath}" "${var.package}@${var.version}"
 COMMAND
   }
 }
