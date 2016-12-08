@@ -32,7 +32,7 @@ main() {
     output="$name.zip"
   fi
   # Normalize output path because we'll be changing directories
-  output=$(realpath -m "$output")
+  output="$(pwd)/${output}"
 
   mkdir $workdir
   cd "$workdir"
