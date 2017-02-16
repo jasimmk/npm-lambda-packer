@@ -18,14 +18,25 @@ main() {
     shift # past argument or value
   done
 
-  local package="${1/%@*/}"
-  local name=$(basename "${package%@*}")
+  # extract the package, which is the name up to the @
+  local package="${1%@*}"
+
+  # extract the version, which is everything after the @
+  local version="${1#*@}"
+
+  # The package name with no paths
+  local name=$(basename "${package}")
+
   local base=$(mktemp -d)
   local workdir="${base}/${name}-package"
 
-  # Installing a package from GitHub works a bit differently.
+  # Installing a package from GitHub and the filesystem works a bit differently.
+  # The filesystem has a '/' at the start
   if [[ "${package}" =~ / ]]; then
-    package="${package/@/#}"
+    if [[ ! "${package}" =~ ^/ ]]; then
+      package="${package}#${version}"
+  else
+    package="${package}@${version}"
   fi
 
   if [ -z "$output" ]; then
