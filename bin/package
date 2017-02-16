@@ -35,6 +35,7 @@ main() {
   if [[ "${package}" =~ / ]]; then
     if [[ ! "${package}" =~ ^/ ]]; then
       package="${package}#${version}"
+    fi
   else
     package="${package}@${version}"
   fi
