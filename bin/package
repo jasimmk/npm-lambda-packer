@@ -21,8 +21,8 @@ main() {
   # extract the package, which is the name up to the @
   local package="${1%@*}"
 
-  # extract the version, which is everything after the @
-  local version="${1#*@}"
+  # extract the version, which is everything after the last @
+  local version="${1##*@}"
 
   # The package name with no paths
   local name=$(basename "${package}")
